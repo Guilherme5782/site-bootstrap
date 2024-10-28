@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Detalhes do Produto</title>
+    <style>
+        :root {
+            --navbar-color: #ffffff; 
+        }
+        
+        .navbar-custom {
+            background-color: var(--navbar-color); 
+        }
+        
+        .navbar-custom .nav-link,
+        .navbar-brand {
+            color: rgb(255, 0, 0);
+        }
+        
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #4d4646; 
+        }
+
+        .container {
+            margin-top: 20px; /* Para um espaçamento melhor */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom"> 
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Martins Burguer</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="quem-somos.html">Quem Somos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="produtos.html">Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="contato.html">Contato</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+            <li class="breadcrumb-item"><a href="produtos.html">Produtos</a></li>
+            <li class="breadcrumb-item active" id="breadcrumb-produto" aria-current="page">Detalhes do Produto</li>
+        </ol>
+
+        <h2 id="titulo-produto">Detalhes do Produto</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <img id="imagem-produto" src="" class="img-fluid" alt="Imagem do Produto">
+            </div>
+            <div class="col-md-6">
+                <h3 id="nome-produto"></h3>
+                <p><strong>Descrição:</strong> <span id="descricao-produto"></span></p>
+                <p><strong>Ingredientes:</strong> <span id="ingredientes-produto"></span></p>
+                <p><strong>Preço:</strong> R$ <span id="preco-produto"></span></p>
+                <a href="#" class="btn btn-success" onclick="adicionarAoCarrinho()">Comprar</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notificação</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
+            </div>
+            <div class="toast-body">
+                O hambúrguer foi adicionado ao carrinho!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const produtos = {
+            martins_duplo_cheddar: {
+                nome: "Martins Duplo Cheddar",
+                descricao: "Dois hambúrgueres com cheddar derretido, alface e tomate.",
+                ingredientes: "Pão, dois hambúrgueres, cheddar, alface, tomate, maionese.",
+                preco: "29,90",
+                imagem: "img/duplo chedar.jpeg" 
+            },
+            martins_bacon: {
+                nome: "Martins Bacon",
+                descricao: "Hambúrguer com bacon crocante, queijo e cebola caramelizada.",
+                ingredientes: "Pão, hambúrguer, bacon, queijo, cebola caramelizada, maionese.",
+                preco: "31,90",
+                imagem: "img/bacon.jpeg"
+            },
+            martins_vegano: {
+                nome: "Martins Vegano",
+                descricao: "Delicioso hambúrguer vegetariano com legumes frescos e molho especial.",
+                ingredientes: "Pão integral, hambúrguer de legumes, alface, cebola roxa, tomate, molho especial.",
+                preco: "28,90",
+                imagem: "img/veggie.jpeg"        
+            },
+            martins_queijo: {
+                nome: "Martins Queijo",
+                descricao: "Hambúrguer com queijo especial, alface e molho caseiro.",
+                ingredientes: "Pão, hambúrguer, queijo especial, alface, molho caseiro.",
+                preco: "27,90",
+                imagem: "img/queijo.jpeg"          
+            },
+            martins_frango: {
+                nome: "Martins Frango",
+                descricao: "Hambúrguer de frango grelhado com maionese e alface.",
+                ingredientes: "Pão, hambúrguer de frango, maionese, alface, tomate.",
+                preco: "26,90",
+                imagem: "img/frango.jpeg"           
+            },
+            martins_4_queijos: {
+                nome: "Martins 4 Queijos",
+                descricao: "Mistura de quatro queijos derretidos e cebola roxa.",
+                ingredientes: "Pão, hambúrguer, cheddar, prato, gorgonzola, muçarela, cebola roxa.",
+                preco: "32,90",
+                imagem: "img/4_queijos.jpeg"            
+            },
+            martins_picanha: {
+                nome: "Martins Picanha",
+                descricao: "Delicioso hambúrguer de picanha com molho barbecue.",
+                ingredientes: "Pão, hambúrguer de picanha, alface, tomate, molho barbecue.",
+                preco: "33,90",
+                imagem: "img/picanha.jpeg"                   
+            },
+            martins_aomolhodealho: {
+                nome: "Martins ao molho do alho",
+                descricao: "Hambúrguer com molho de alho e cheddar cremoso.",
+                ingredientes: "Pão, hambúrguer, molho de alho, cheddar cremoso, alface.",
+                preco: "30,90",
+                imagem: "img/alho.jpeg"           
+            },
+            martins_burger: {
+                nome: "Martins Burger",
+                descricao: "Hambúrguer clássico com alface, tomate e maionese.",
+                ingredientes: "Pão, hambúrguer, alface, tomate, maionese caseira.",
+                preco: "25,90",
+                imagem: "img/normal.jpeg"      
+            },
+        };
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const produtoSelecionado = getQueryParam('produto');
+
+        if (produtos[produtoSelecionado]) {
+            const produto = produtos[produtoSelecionado];
+            document.getElementById('titulo-produto').innerText = produto.nome;
+            document.getElementById('nome-produto').innerText = produto.nome;
+            document.getElementById('descricao-produto').innerText = produto.descricao;
+            document.getElementById('ingredientes-produto').innerText = produto.ingredientes;
+            document.getElementById('preco-produto').innerText = produto.preco;
+            document.getElementById('imagem-produto').src = produto.imagem;
+            document.getElementById('breadcrumb-produto').innerText = produto.nome;
+        } else {
+            document.getElementById('titulo-produto').innerText = "Produto não encontrado";
+        }
+
+        function adicionarAoCarrinho() {
+            const toastElement = document.getElementById('toast');
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        }
+    </script>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notificação</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
+            </div>
+            <div class="toast-body">
+                O hambúrguer foi adicionado ao carrinho!
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
